@@ -12,322 +12,162 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
   :root {
-    --red: #C0140C;
-    --red-dark: #8f0e08;
-    --red-light: #fdecea;
-    --green: #3B6D11;
-    --green-light: #EAF3DE;
-    --green-mid: #639922;
-    --amber: #854F0B;
-    --amber-light: #FAEEDA;
-    --bg: #f5f4f2;
-    --surface: #ffffff;
-    --surface2: #f0eeeb;
-    --border: rgba(0,0,0,0.09);
-    --border-mid: rgba(0,0,0,0.15);
-    --text: #1a1a18;
-    --text2: #6b6b67;
-    --text3: #a0a09c;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --red: #C0140C; --red-dark: #8f0e08; --red-light: #fdecea;
+    --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #639922;
+    --amber: #854F0B; --amber-light: #FAEEDA;
+    --bg: #f5f4f2; --surface: #ffffff; --surface2: #f0eeeb;
+    --border: rgba(0,0,0,0.09); --border-mid: rgba(0,0,0,0.15);
+    --text: #1a1a18; --text2: #6b6b67; --text3: #a0a09c;
+    --radius: 12px; --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
-
-  html, body {
-    height: 100%;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.5;
-    overflow-x: hidden;
-  }
-
-  /* ── LAYOUT ── */
+  html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.5; overflow-x: hidden; }
   .app { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
-
   .screen { display: none; flex-direction: column; flex: 1; padding-bottom: 32px; }
   .screen.active { display: flex; }
 
-  /* ── TOP BAR ── */
-  .topbar {
-    position: sticky; top: 0; z-index: 50;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 16px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .topbar-logo {
-    width: 34px; height: 34px; background: var(--red); border-radius: 9px;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
+  /* TOPBAR */
+  .topbar { position: sticky; top: 0; z-index: 50; background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+  .topbar-logo { width: 34px; height: 34px; background: var(--red); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .topbar-logo svg { width: 18px; height: 18px; fill: white; }
   .topbar-titles { flex: 1; }
-  .topbar-titles h1 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .topbar-titles h1 { font-size: 15px; font-weight: 600; }
   .topbar-titles p { font-size: 12px; color: var(--text3); }
-  .topbar-back {
-    width: 34px; height: 34px; border-radius: 9px; background: var(--surface2);
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    border: none; flex-shrink: 0;
-  }
+  .topbar-back { width: 34px; height: 34px; border-radius: 9px; background: var(--surface2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; flex-shrink: 0; }
   .topbar-back svg { width: 18px; height: 18px; stroke: var(--text2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar-action { width: 34px; height: 34px; border-radius: 9px; background: var(--surface2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; flex-shrink: 0; }
+  .topbar-action svg { width: 18px; height: 18px; stroke: var(--text2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-  /* ── TABS ── */
-  .tabs {
-    display: flex; background: var(--surface);
-    border-bottom: 1px solid var(--border); padding: 0 16px;
-    overflow-x: auto; gap: 0;
-  }
+  /* TABS */
+  .tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; overflow-x: auto; }
   .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    padding: 12px 14px; font-size: 13px; font-weight: 500;
-    color: var(--text3); cursor: pointer; border: none; background: none;
-    border-bottom: 2px solid transparent; white-space: nowrap;
-    font-family: 'DM Sans', sans-serif; transition: color 0.15s;
-    margin-bottom: -1px;
-  }
+  .tab { padding: 12px 14px; font-size: 13px; font-weight: 500; color: var(--text3); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: color 0.15s; margin-bottom: -1px; }
   .tab.active { color: var(--red); border-bottom-color: var(--red); }
 
-  /* ── CONTENT ── */
+  /* CONTENT */
   .content { padding: 16px; flex: 1; }
 
-  /* ── CARDS ── */
-  .card {
-    background: var(--surface); border-radius: var(--radius);
-    border: 1px solid var(--border); padding: 16px;
-    box-shadow: var(--shadow); margin-bottom: 12px;
-  }
+  /* CARD */
+  .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; }
   .card-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
 
-  /* ── BUTTONS ── */
-  .btn-primary {
-    width: 100%; padding: 14px; background: var(--red); color: white;
-    border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600;
-    cursor: pointer; font-family: 'DM Sans', sans-serif;
-    transition: background 0.15s, transform 0.1s;
-    letter-spacing: 0.01em;
-  }
+  /* BUTTONS */
+  .btn-primary { width: 100%; padding: 14px; background: var(--red); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.15s, transform 0.1s; }
   .btn-primary:active { background: var(--red-dark); transform: scale(0.98); }
   .btn-primary:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+  .btn-secondary { flex: 1; padding: 12px; background: var(--surface2); color: var(--text); border: 1px solid var(--border-mid); border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .btn-danger { width: 100%; padding: 12px; background: white; color: var(--red); border: 1px solid #F09595; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 
-  .btn-secondary {
-    flex: 1; padding: 12px; background: var(--surface2); color: var(--text);
-    border: 1px solid var(--border-mid); border-radius: var(--radius-sm);
-    font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif;
-    transition: background 0.15s;
-  }
-  .btn-secondary:active { background: var(--border); }
-
-  .btn-danger {
-    width: 100%; padding: 12px; background: white; color: var(--red);
-    border: 1px solid #F09595; border-radius: var(--radius-sm);
-    font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  }
-
-  /* ── FORM ── */
+  /* FORM */
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .field input, .field textarea, .field select {
-    width: 100%; padding: 11px 13px;
-    border: 1px solid var(--border-mid); border-radius: var(--radius-sm);
-    font-size: 15px; font-family: 'DM Sans', sans-serif;
-    background: var(--surface2); color: var(--text);
-    transition: border-color 0.15s;
-    -webkit-appearance: none;
-  }
-  .field input:focus, .field textarea:focus, .field select:focus {
-    outline: none; border-color: var(--red); background: white;
-  }
+  .field input, .field textarea { width: 100%; padding: 11px 13px; border: 1px solid var(--border-mid); border-radius: var(--radius-sm); font-size: 15px; font-family: 'DM Sans', sans-serif; background: var(--surface2); color: var(--text); -webkit-appearance: none; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--red); background: white; }
   .field textarea { resize: none; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .mono { font-family: 'DM Mono', monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-  /* ── AUTO LIST ITEM ── */
-  .auto-item {
-    background: var(--surface); border-radius: var(--radius);
-    border: 1px solid var(--border); padding: 14px 16px;
-    margin-bottom: 10px; cursor: pointer;
-    display: flex; align-items: center; gap: 14px;
-    box-shadow: var(--shadow);
-    transition: border-color 0.15s, transform 0.1s;
-    -webkit-user-select: none;
-  }
+  /* AUTO LIST */
+  .auto-item { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); transition: transform 0.1s; -webkit-user-select: none; }
   .auto-item:active { transform: scale(0.99); }
   .auto-item.done { border-left: 3px solid var(--green); }
-  .auto-icon {
-    width: 42px; height: 42px; border-radius: 10px;
-    background: var(--surface2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
+  .auto-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--surface2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .auto-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--text3); stroke-width: 1.5; stroke-linecap: round; }
   .auto-item.done .auto-icon { background: var(--green-light); }
   .auto-item.done .auto-icon svg { stroke: var(--green); }
   .auto-info { flex: 1; min-width: 0; }
-  .auto-targa { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; letter-spacing: 0.08em; color: var(--text); }
+  .auto-targa { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; letter-spacing: 0.08em; }
   .auto-modello { font-size: 13px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
   .auto-date { font-size: 11px; color: var(--text3); margin-top: 2px; }
-
-  /* mini progress */
   .mprog { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
   .mprog-bar { width: 72px; height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
-  .mprog-fill { height: 100%; border-radius: 3px; transition: width 0.3s; background: var(--red); }
+  .mprog-fill { height: 100%; border-radius: 3px; background: var(--red); }
   .mprog-fill.g { background: var(--green); }
   .mprog-pct { font-size: 12px; font-weight: 600; color: var(--text3); }
-  .badge {
-    font-size: 10px; font-weight: 600; padding: 2px 7px;
-    border-radius: 999px; white-space: nowrap;
-  }
+  .badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
   .badge-wip { background: var(--amber-light); color: var(--amber); }
   .badge-done { background: var(--green-light); color: var(--green); }
 
-  /* ── EMPTY STATE ── */
-  .empty {
-    text-align: center; padding: 56px 24px;
-    color: var(--text3);
-  }
+  /* EMPTY */
+  .empty { text-align: center; padding: 56px 24px; color: var(--text3); }
   .empty-icon { font-size: 40px; margin-bottom: 12px; }
   .empty h3 { font-size: 15px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
   .empty p { font-size: 13px; }
 
-  /* ── PROGRESS BIG ── */
-  .prog-section { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
+  /* PROGRESS */
+  .prog-section { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; margin-bottom: 4px; box-shadow: var(--shadow); }
   .prog-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
   .prog-label { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
-  .prog-number { font-size: 36px; font-weight: 600; color: var(--text); line-height: 1; transition: color 0.4s; }
+  .prog-number { font-size: 36px; font-weight: 600; line-height: 1; transition: color 0.4s; }
   .prog-number.g { color: var(--green); }
   .prog-bar-wrap { height: 12px; background: var(--surface2); border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
   .prog-bar-fill { height: 100%; border-radius: 6px; transition: width 0.5s ease; background: var(--red); }
   .prog-bar-fill.g { background: var(--green); }
   .prog-sub { font-size: 12px; color: var(--text3); margin-top: 8px; }
 
-  /* ── VEHICLE HEADER ── */
+  /* VEH HEADER */
   .veh-header { padding: 16px; }
-  .veh-targa {
-    display: inline-block; font-family: 'DM Mono', monospace;
-    font-size: 20px; font-weight: 500; letter-spacing: 0.1em;
-    color: var(--text); background: var(--surface);
-    padding: 6px 14px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border-mid); margin-bottom: 4px;
-    box-shadow: var(--shadow);
-  }
+  .veh-targa { display: inline-block; font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; letter-spacing: 0.1em; background: var(--surface); padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-mid); margin-bottom: 4px; box-shadow: var(--shadow); }
   .veh-modello { font-size: 14px; color: var(--text2); }
 
-  /* ── CELEBRATE ── */
-  .celebrate {
-    margin: 0 16px 16px;
-    background: var(--green-light); border: 1px solid #C0DD97;
-    border-radius: var(--radius); padding: 20px; text-align: center;
-    display: none;
-    animation: popIn 0.4s ease;
-  }
+  /* CELEBRATE */
+  .celebrate { margin: 0 16px 16px; background: var(--green-light); border: 1px solid #C0DD97; border-radius: var(--radius); padding: 20px; text-align: center; display: none; animation: popIn 0.4s ease; }
   .celebrate.show { display: block; }
   @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .celebrate-emoji { font-size: 36px; margin-bottom: 8px; }
   .celebrate h3 { font-size: 16px; font-weight: 600; color: var(--green); margin-bottom: 4px; }
   .celebrate p { font-size: 13px; color: #3B6D11; }
 
-  /* ── CHECKLIST SECTION ── */
-  .section-label {
-    font-size: 11px; font-weight: 600; color: var(--text3);
-    text-transform: uppercase; letter-spacing: 0.08em;
-    padding: 0 16px; margin: 20px 0 8px;
-  }
-
-  .check-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 13px 16px;
-    background: var(--surface); border-top: 1px solid var(--border);
-    cursor: pointer; transition: background 0.1s;
-    -webkit-user-select: none;
-  }
+  /* CHECKLIST */
+  .section-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 16px; margin: 20px 0 8px; }
+  .check-item { display: flex; align-items: center; gap: 14px; padding: 13px 16px; background: var(--surface); border-top: 1px solid var(--border); cursor: pointer; transition: background 0.1s; -webkit-user-select: none; }
   .check-item:last-child { border-bottom: 1px solid var(--border); }
   .check-item:active { background: var(--surface2); }
   .check-item.checked { background: #f5fbef; }
-
-  .check-circle {
-    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
-    border: 2px solid var(--border-mid); background: white;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
+  .check-circle { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; border: 2px solid var(--border-mid); background: white; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
   .check-item.checked .check-circle { background: var(--green); border-color: var(--green); }
   .check-circle svg { width: 13px; height: 13px; fill: none; stroke: white; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 0.15s; }
   .check-item.checked .check-circle svg { opacity: 1; }
-
   .check-content { flex: 1; }
   .check-label { font-size: 14px; color: var(--text); transition: color 0.15s; }
   .check-item.checked .check-label { color: var(--text3); text-decoration: line-through; text-decoration-color: #9FE1CB; }
   .check-peso { font-size: 11px; color: var(--text3); margin-top: 1px; }
 
-  /* ── ACTIONS BAR ── */
+  /* ACTION BAR */
   .action-bar { padding: 12px 16px; display: flex; gap: 10px; }
-
-  /* ── SETTINGS ── */
-  .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .setting-row input {
-    flex: 1; padding: 10px 12px;
-    border: 1px solid var(--border-mid); border-radius: var(--radius-sm);
-    font-size: 12px; font-family: 'DM Mono', monospace;
-    background: var(--surface2); color: var(--text);
-  }
-  .setting-row input:focus { outline: none; border-color: var(--red); }
-  .setting-row button {
-    padding: 10px 14px; border-radius: var(--radius-sm);
-    background: var(--surface2); border: 1px solid var(--border-mid);
-    font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-  }
-  .status-ok { font-size: 12px; color: var(--green); font-weight: 500; }
-  .status-ko { font-size: 12px; color: var(--text3); }
-  .status-err { font-size: 12px; color: var(--red); }
-
-  .sync-msg { font-size: 12px; color: var(--text3); text-align: center; padding: 4px 16px; }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-    background: var(--text); color: white; padding: 10px 20px;
-    border-radius: 999px; font-size: 13px; font-weight: 500;
-    z-index: 999; transition: transform 0.3s ease; white-space: nowrap;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* ── DIVIDER ── */
-  .divider { height: 1px; background: var(--border); margin: 8px 0; }
-
-  /* ── NOTE ── */
   .note-section { padding: 0 16px; margin-bottom: 16px; }
   .note-section label { display: block; font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .note-section textarea {
-    width: 100%; padding: 10px 12px; border: 1px solid var(--border-mid);
-    border-radius: var(--radius-sm); font-size: 13px; font-family: 'DM Sans', sans-serif;
-    background: var(--surface); color: var(--text); resize: none;
-  }
+  .note-section textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-mid); border-radius: var(--radius-sm); font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); resize: none; }
   .note-section textarea:focus { outline: none; border-color: var(--red); }
 
-  /* ── INFO ROW ── */
-  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); }
-  .info-row:last-child { border-bottom: none; }
-  .info-key { font-size: 13px; color: var(--text3); }
-  .info-val { font-size: 13px; font-weight: 500; color: var(--text); font-family: 'DM Mono', monospace; }
+  /* SETTINGS */
+  .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .setting-row input { flex: 1; padding: 10px 12px; border: 1px solid var(--border-mid); border-radius: var(--radius-sm); font-size: 12px; font-family: 'DM Mono', monospace; background: var(--surface2); color: var(--text); }
+  .setting-row input:focus { outline: none; border-color: var(--red); }
+  .setting-row button { padding: 10px 14px; border-radius: var(--radius-sm); background: var(--surface2); border: 1px solid var(--border-mid); font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+  .status-ok { font-size: 12px; color: var(--green); font-weight: 500; }
+  .status-ko { font-size: 12px; color: var(--text3); }
 
-  .fab {
-    position: fixed; bottom: 24px; right: 20px;
-    width: 54px; height: 54px; border-radius: 50%;
-    background: var(--red); color: white;
-    border: none; font-size: 26px; font-weight: 300;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(192,20,12,0.35);
-    cursor: pointer; z-index: 40;
-    transition: transform 0.15s, box-shadow 0.15s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .fab:active { transform: scale(0.93); box-shadow: 0 2px 8px rgba(192,20,12,0.25); }
+  /* LOADER */
+  .loader-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; gap: 16px; }
+  .loader-overlay.hide { display: none; }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-msg { font-size: 14px; color: var(--text2); font-weight: 500; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: white; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; z-index: 9999; transition: transform 0.3s ease; white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .fab { position: fixed; bottom: 24px; right: 20px; width: 54px; height: 54px; border-radius: 50%; background: var(--red); color: white; border: none; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(192,20,12,0.35); cursor: pointer; z-index: 40; transition: transform 0.15s; font-family: 'DM Sans', sans-serif; }
+  .fab:active { transform: scale(0.93); }
+
+  .sync-info { font-size: 11px; color: var(--text3); text-align: center; padding: 4px 16px 0; }
 
   @media (min-width: 521px) {
     body { background: #e8e6e2; }
-    .app { box-shadow: 0 0 40px rgba(0,0,0,0.12); min-height: 100vh; }
+    .app { box-shadow: 0 0 40px rgba(0,0,0,0.12); }
     .fab { right: calc(50% - 260px + 16px); }
   }
 </style>
@@ -335,8 +175,35 @@
 <body>
 <div class="app">
 
-  <!-- ════ SCREEN: LISTA ════ -->
-  <div id="s-lista" class="screen active">
+  <!-- SETUP SCREEN -->
+  <div id="s-setup" class="screen active">
+    <div class="topbar">
+      <div class="topbar-logo">
+        <svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="17" r="3"/><path d="M14 17H10"/></svg>
+      </div>
+      <div class="topbar-titles">
+        <h1>Configurazione</h1>
+        <p>Prima configurazione app</p>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <div class="card-title">Google Apps Script URL</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Incolla l'URL del tuo Google Apps Script. Tutti i dispositivi useranno Google Sheet come database centrale.</p>
+        <div class="field">
+          <label>URL Apps Script</label>
+          <input id="setup-url" type="url" placeholder="https://script.google.com/macros/s/..." style="font-family:'DM Mono',monospace;font-size:12px">
+        </div>
+        <button class="btn-primary" onclick="salvaSetup()">Connetti e inizia</button>
+      </div>
+      <div class="card" style="background:var(--amber-light);border-color:#FAC775">
+        <p style="font-size:13px;color:var(--amber)">⚠ Questo URL va inserito su ogni dispositivo la prima volta. Dopo, i dati sono sincronizzati automaticamente via Google Sheet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTA SCREEN -->
+  <div id="s-lista" class="screen">
     <div class="topbar">
       <div class="topbar-logo">
         <svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="17" r="3"/><path d="M14 17H10"/></svg>
@@ -345,25 +212,21 @@
         <h1>Preparazione Veicoli</h1>
         <p>Donolauto — Federico</p>
       </div>
+      <button class="topbar-action" onclick="refreshLista(true)" title="Aggiorna">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      </button>
     </div>
-
     <div class="tabs">
       <button class="tab active" onclick="setTab('wip',this)">In lavorazione</button>
       <button class="tab" onclick="setTab('done',this)">Completate</button>
       <button class="tab" onclick="setTab('settings',this)">Impostazioni</button>
     </div>
-
     <div class="content">
-      <div id="tab-wip">
-        <div id="list-wip"></div>
-      </div>
-      <div id="tab-done" style="display:none">
-        <div id="list-done"></div>
-      </div>
+      <div id="tab-wip"><div id="list-wip"></div></div>
+      <div id="tab-done" style="display:none"><div id="list-done"></div></div>
       <div id="tab-settings" style="display:none">
         <div class="card">
-          <div class="card-title">Google Sheet — Apps Script</div>
-          <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Incolla l'URL del tuo Google Apps Script per sincronizzare i dati sul foglio.</p>
+          <div class="card-title">Google Apps Script</div>
           <div class="setting-row">
             <input type="url" id="gas-input" placeholder="https://script.google.com/macros/s/...">
             <button onclick="saveGas()">Salva</button>
@@ -371,21 +234,16 @@
           <p id="gas-status" class="status-ko">Non configurato</p>
         </div>
         <div class="card">
-          <div class="card-title">Dati app</div>
-          <p style="font-size:13px;color:var(--text2);margin-bottom:12px">I dati vengono salvati sul tuo dispositivo (localStorage). Usa sempre lo stesso browser.</p>
-          <button class="btn-danger" onclick="resetAll()">Cancella tutti i dati</button>
-        </div>
-        <div class="card">
-          <div class="card-title">Versione</div>
-          <p style="font-size:13px;color:var(--text3)">Preparazione Veicoli v1.0<br>Donolauto SRL — Legnaro (PD)</p>
+          <div class="card-title">Cache locale</div>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px">I dati vengono letti da Google Sheet ad ogni apertura. La cache locale velocizza la navigazione.</p>
+          <button class="btn-danger" onclick="clearCache()">Svuota cache locale</button>
         </div>
       </div>
     </div>
-
-    <button class="fab" id="fab-btn" onclick="showScreen('s-nuova')" title="Nuova auto">+</button>
+    <button class="fab" id="fab-btn" onclick="showScreen('s-nuova')">+</button>
   </div>
 
-  <!-- ════ SCREEN: NUOVA AUTO ════ -->
+  <!-- NUOVA AUTO -->
   <div id="s-nuova" class="screen">
     <div class="topbar">
       <button class="topbar-back" onclick="showScreen('s-lista')">
@@ -424,34 +282,34 @@
         </div>
         <div class="field">
           <label>Note iniziali</label>
-          <textarea id="f-note" rows="2" placeholder="Danni visibili, osservazioni all'accettazione..."></textarea>
+          <textarea id="f-note" rows="2" placeholder="Danni visibili, osservazioni..."></textarea>
         </div>
         <button class="btn-primary" onclick="creaAuto()">Crea scheda e inizia preparazione</button>
       </div>
     </div>
   </div>
 
-  <!-- ════ SCREEN: CHECKLIST ════ -->
+  <!-- CHECKLIST -->
   <div id="s-checklist" class="screen">
     <div class="topbar">
       <button class="topbar-back" onclick="showScreen('s-lista')">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div class="topbar-titles">
-        <h1 id="cl-topbar-title">AB123CD</h1>
-        <p id="cl-topbar-sub">Volkswagen Golf</p>
+        <h1 id="cl-topbar-title">—</h1>
+        <p id="cl-topbar-sub">—</p>
       </div>
     </div>
 
     <div class="veh-header">
-      <div class="veh-targa" id="cl-targa">AB123CD</div>
-      <div class="veh-modello" id="cl-modello">Volkswagen Golf</div>
+      <div class="veh-targa" id="cl-targa">—</div>
+      <div class="veh-modello" id="cl-modello">—</div>
     </div>
 
     <div class="celebrate" id="celebrate">
       <div class="celebrate-emoji">🎉</div>
       <h3>Preparazione completata!</h3>
-      <p id="celebrate-msg">Ottimo lavoro! Il veicolo è pronto per la vendita.</p>
+      <p id="celebrate-msg">Ottimo lavoro Federico!</p>
     </div>
 
     <div class="prog-section" style="margin:0 16px 4px">
@@ -469,16 +327,21 @@
 
     <div class="note-section" style="margin-top:16px">
       <label>Note finali</label>
-      <textarea id="cl-note-finale" rows="2" placeholder="Note al termine della preparazione..." oninput="saveNoteFinale()"></textarea>
+      <textarea id="cl-note-finale" rows="2" placeholder="Note al termine della preparazione..."></textarea>
     </div>
 
     <div class="action-bar">
-      <button class="btn-secondary" onclick="sincronizza()">↑ Sync Sheet</button>
-      <button class="btn-primary" id="btn-archivia" style="flex:1" onclick="archiviaAuto()" disabled>Archivia</button>
+      <button class="btn-primary" id="btn-archivia" onclick="archiviaAuto()" disabled>Archivia veicolo</button>
     </div>
-    <p class="sync-msg" id="sync-msg"></p>
+    <p class="sync-info" id="sync-info">Le modifiche vengono salvate automaticamente su Google Sheet</p>
   </div>
 
+</div>
+
+<!-- LOADER -->
+<div class="loader-overlay hide" id="loader">
+  <div class="spinner"></div>
+  <div class="loader-msg" id="loader-msg">Caricamento...</div>
 </div>
 
 <!-- TOAST -->
@@ -486,61 +349,104 @@
 
 <script>
 // ══════════════════════════════════════
-//  DATI CHECKLIST
+//  VOCI CHECKLIST
 // ══════════════════════════════════════
 const VOCI = [
-  { id:'accettazione',    label:'Accettazione e dati veicolo',              peso:5,  gruppo:'Accettazione' },
-  { id:'pressione',       label:'Controllo pressione e stato gomme',         peso:8,  gruppo:'Controlli tecnici' },
-  { id:'freni',           label:'Controllo freni (visivo)',                  peso:7,  gruppo:'Controlli tecnici' },
-  { id:'olio',            label:'Controllo olio e refrigerante',             peso:8,  gruppo:'Controlli tecnici' },
-  { id:'luci',            label:'Controllo luci (fari, frecce, stop)',       peso:6,  gruppo:'Controlli tecnici' },
-  { id:'batteria',        label:'Test avviamento e batteria',                peso:6,  gruppo:'Controlli tecnici' },
-  { id:'documenti',       label:'Verifica documenti (libretto, etc.)',       peso:5,  gruppo:'Controlli tecnici' },
-  { id:'ruota_scorta',    label:'Controllo ruota di scorta e crick',         peso:4,  gruppo:'Controlli tecnici' },
-  { id:'effetti',         label:'Rimozione effetti personali',               peso:4,  gruppo:'Pulizia' },
-  { id:'sanificazione',   label:'Sanificazione e lavaggio interni',          peso:8,  gruppo:'Pulizia' },
-  { id:'moquette',        label:'Pulizia moquette e tappetini',              peso:7,  gruppo:'Pulizia' },
-  { id:'sedili',          label:'Pulizia sedili',                            peso:7,  gruppo:'Pulizia' },
-  { id:'vetri',           label:'Pulizia vetri interni ed esterni',          peso:6,  gruppo:'Pulizia' },
-  { id:'adesivi',         label:'Rimozione adesivi',                         peso:5,  gruppo:'Allestimento' },
-  { id:'porta_targa',     label:'Installazione porta targa',                 peso:5,  gruppo:'Allestimento' },
-  { id:'adesivo_dn',      label:'Adesivo Donolauto',                         peso:4,  gruppo:'Allestimento' },
-  { id:'punti_nascosti',  label:'Controllo punti nascosti (sottoscocca)',     peso:5,  gruppo:'Allestimento' },
+  { id:'accettazione',   label:'Accettazione e dati veicolo',           peso:5,  gruppo:'Accettazione' },
+  { id:'pressione',      label:'Controllo pressione e stato gomme',      peso:8,  gruppo:'Controlli tecnici' },
+  { id:'freni',          label:'Controllo freni (visivo)',               peso:7,  gruppo:'Controlli tecnici' },
+  { id:'olio',           label:'Controllo olio e refrigerante',          peso:8,  gruppo:'Controlli tecnici' },
+  { id:'luci',           label:'Controllo luci (fari, frecce, stop)',    peso:6,  gruppo:'Controlli tecnici' },
+  { id:'batteria',       label:'Test avviamento e batteria',             peso:6,  gruppo:'Controlli tecnici' },
+  { id:'documenti',      label:'Verifica documenti (libretto, etc.)',    peso:5,  gruppo:'Controlli tecnici' },
+  { id:'ruota_scorta',   label:'Controllo ruota di scorta e crick',      peso:4,  gruppo:'Controlli tecnici' },
+  { id:'effetti',        label:'Rimozione effetti personali',            peso:4,  gruppo:'Pulizia' },
+  { id:'sanificazione',  label:'Sanificazione e lavaggio interni',       peso:8,  gruppo:'Pulizia' },
+  { id:'moquette',       label:'Pulizia moquette e tappetini',           peso:7,  gruppo:'Pulizia' },
+  { id:'sedili',         label:'Pulizia sedili',                         peso:7,  gruppo:'Pulizia' },
+  { id:'vetri',          label:'Pulizia vetri interni ed esterni',       peso:6,  gruppo:'Pulizia' },
+  { id:'adesivi',        label:'Rimozione adesivi',                      peso:5,  gruppo:'Allestimento' },
+  { id:'porta_targa',    label:'Installazione porta targa',              peso:5,  gruppo:'Allestimento' },
+  { id:'adesivo_dn',     label:'Adesivo Donolauto',                      peso:4,  gruppo:'Allestimento' },
+  { id:'punti_nascosti', label:'Controllo punti nascosti (sottoscocca)', peso:5,  gruppo:'Allestimento' },
 ];
 
 // ══════════════════════════════════════
 //  STATO
 // ══════════════════════════════════════
-let autos = JSON.parse(localStorage.getItem('dn_prep_autos') || '[]');
+let GAS_URL = localStorage.getItem('dn_gas_url') || '';
+let autos = [];
 let currentId = null;
-let activeTab = 'wip';
-
-function save() { localStorage.setItem('dn_prep_autos', JSON.stringify(autos)); }
+let saveTimer = null;
 
 // ══════════════════════════════════════
-//  NAVIGAZIONE
+//  INIT
 // ══════════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if (id === 's-lista') { renderLista(); }
-  window.scrollTo(0, 0);
+function init() {
+  if (!GAS_URL) {
+    showScreen('s-setup');
+  } else {
+    showScreen('s-lista');
+    refreshLista(true);
+  }
+  const fi = document.getElementById('f-data');
+  if (fi) fi.value = today();
 }
 
-function setTab(name, el) {
-  activeTab = name;
-  ['wip','done','settings'].forEach(t => {
-    document.getElementById('tab-'+t).style.display = t===name ? 'block' : 'none';
-  });
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('fab-btn').style.display = name === 'settings' ? 'none' : 'flex';
-  renderLista();
+// ══════════════════════════════════════
+//  SETUP
+// ══════════════════════════════════════
+function salvaSetup() {
+  const url = document.getElementById('setup-url').value.trim();
+  if (!url || !url.startsWith('https://script.google.com')) {
+    toast('URL non valido'); return;
+  }
+  GAS_URL = url;
+  localStorage.setItem('dn_gas_url', url);
+  showScreen('s-lista');
+  refreshLista(true);
+}
+
+// ══════════════════════════════════════
+//  API CALLS — Google Apps Script
+// ══════════════════════════════════════
+async function gasGet(params) {
+  const url = GAS_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url, { mode: 'no-cors' });
+  // no-cors returns opaque — for reads we use cors mode below
+}
+
+async function gasRead(params) {
+  const url = GAS_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url);
+  const text = await res.text();
+  try { return JSON.parse(text); } catch(e) { return null; }
 }
 
 // ══════════════════════════════════════
 //  LISTA
 // ══════════════════════════════════════
+async function refreshLista(showLoader) {
+  if (showLoader) loader('Caricamento dal foglio...');
+  try {
+    const data = await gasRead({ action: 'get_all' });
+    if (data && Array.isArray(data)) {
+      autos = data;
+      localStorage.setItem('dn_cache', JSON.stringify(autos));
+    } else {
+      // fallback cache
+      const cached = localStorage.getItem('dn_cache');
+      if (cached) autos = JSON.parse(cached);
+    }
+  } catch(e) {
+    const cached = localStorage.getItem('dn_cache');
+    if (cached) { autos = JSON.parse(cached); toast('Modalità offline — dati dalla cache'); }
+    else toast('Errore di connessione');
+  }
+  hideLoader();
+  renderLista();
+}
+
 function pct(auto) {
   let t = 0;
   VOCI.forEach(v => { if (auto.checks && auto.checks[v.id]) t += v.peso; });
@@ -549,40 +455,25 @@ function pct(auto) {
 
 function formatDate(d) {
   if (!d) return '';
-  const [y,m,g] = d.split('-');
-  return g+'/'+m+'/'+y;
+  const p = d.split('-');
+  return p.length === 3 ? p[2]+'/'+p[1]+'/'+p[0] : d;
 }
 
 function renderLista() {
   const wip  = autos.filter(a => !a.archiviata);
   const done = autos.filter(a =>  a.archiviata);
-
-  const elWip  = document.getElementById('list-wip');
-  const elDone = document.getElementById('list-done');
-
-  elWip.innerHTML = wip.length === 0
-    ? `<div class="empty"><div class="empty-icon">🚗</div><h3>Nessun veicolo in lavorazione</h3><p>Premi + per aggiungere una nuova auto</p></div>`
-    : wip.map(autoCard).join('');
-
-  elDone.innerHTML = done.length === 0
-    ? `<div class="empty"><div class="empty-icon">✅</div><h3>Nessuna auto archiviata</h3><p>Le auto completate appariranno qui</p></div>`
-    : done.map(autoCard).join('');
-
-  // settings
-  const gasUrl = localStorage.getItem('dn_gas_url') || '';
-  const inp = document.getElementById('gas-input');
-  if (inp) inp.value = gasUrl;
-  const st = document.getElementById('gas-status');
-  if (st) { st.textContent = gasUrl ? '✓ Configurato' : 'Non configurato'; st.className = gasUrl ? 'status-ok' : 'status-ko'; }
+  document.getElementById('list-wip').innerHTML  = wip.length  ? wip.map(autoCard).join('')  : emptyState('🚗','Nessun veicolo in lavorazione','Premi + per aggiungere una nuova auto');
+  document.getElementById('list-done').innerHTML = done.length ? done.map(autoCard).join('') : emptyState('✅','Nessuna auto archiviata','Le auto completate appariranno qui');
+  const gi = document.getElementById('gas-input');
+  if (gi) gi.value = GAS_URL;
+  const gs = document.getElementById('gas-status');
+  if (gs) { gs.textContent = GAS_URL ? '✓ Configurato' : 'Non configurato'; gs.className = GAS_URL ? 'status-ok' : 'status-ko'; }
 }
 
 function autoCard(a) {
-  const p = pct(a);
-  const isDone = a.archiviata || p === 100;
+  const p = pct(a); const isDone = a.archiviata || p === 100;
   return `<div class="auto-item ${isDone?'done':''}" onclick="apriAuto('${a.id}')">
-    <div class="auto-icon">
-      <svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="17" r="3"/><path d="M14 17H10"/></svg>
-    </div>
+    <div class="auto-icon"><svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="17" r="3"/><path d="M14 17H10"/></svg></div>
     <div class="auto-info">
       <div class="auto-targa">${a.targa}</div>
       <div class="auto-modello">${a.marca} ${a.modello}</div>
@@ -596,10 +487,14 @@ function autoCard(a) {
   </div>`;
 }
 
+function emptyState(ico, h, p) {
+  return `<div class="empty"><div class="empty-icon">${ico}</div><h3>${h}</h3><p>${p}</p></div>`;
+}
+
 // ══════════════════════════════════════
 //  NUOVA AUTO
 // ══════════════════════════════════════
-function creaAuto() {
+async function creaAuto() {
   const targa   = document.getElementById('f-targa').value.trim().toUpperCase();
   const marca   = document.getElementById('f-marca').value.trim();
   const modello = document.getElementById('f-modello').value.trim();
@@ -608,19 +503,21 @@ function creaAuto() {
   const auto = {
     id: 'a' + Date.now(),
     targa, marca, modello,
-    telaio: document.getElementById('f-telaio').value.trim().toUpperCase(),
-    data:   document.getElementById('f-data').value || today(),
-    note:   document.getElementById('f-note').value.trim(),
-    checks: { accettazione: true },
-    noteFinale: '',
+    telaio:    document.getElementById('f-telaio').value.trim().toUpperCase(),
+    data:      document.getElementById('f-data').value || today(),
+    note:      document.getElementById('f-note').value.trim(),
+    checks:    { accettazione: true },
+    noteFinale:'',
     archiviata: false,
-    dataArchivio: null,
   };
 
   ['f-targa','f-marca','f-modello','f-telaio','f-note'].forEach(id => { document.getElementById(id).value = ''; });
 
+  loader('Salvataggio su Google Sheet...');
+  await syncAuto(auto);
   autos.push(auto);
-  save();
+  localStorage.setItem('dn_cache', JSON.stringify(autos));
+  hideLoader();
   apriAuto(auto.id);
 }
 
@@ -631,13 +528,11 @@ function apriAuto(id) {
   currentId = id;
   const a = autos.find(x => x.id === id);
   if (!a) return;
-
   document.getElementById('cl-topbar-title').textContent = a.targa;
   document.getElementById('cl-topbar-sub').textContent   = a.marca + ' ' + a.modello;
   document.getElementById('cl-targa').textContent        = a.targa;
   document.getElementById('cl-modello').textContent      = a.marca + ' ' + a.modello;
   document.getElementById('cl-note-finale').value        = a.noteFinale || '';
-
   renderChecklist(a);
   aggiornaProgresso(a);
   showScreen('s-checklist');
@@ -647,15 +542,10 @@ function renderChecklist(auto) {
   const el = document.getElementById('cl-items');
   let html = ''; let lastG = '';
   VOCI.forEach(v => {
-    if (v.gruppo !== lastG) {
-      html += `<div class="section-label">${v.gruppo}</div>`;
-      lastG = v.gruppo;
-    }
+    if (v.gruppo !== lastG) { html += `<div class="section-label">${v.gruppo}</div>`; lastG = v.gruppo; }
     const checked = !!(auto.checks && auto.checks[v.id]);
     html += `<div class="check-item ${checked?'checked':''}" id="ci-${v.id}" onclick="toggle('${v.id}')">
-      <div class="check-circle">
-        <svg viewBox="0 0 13 13"><polyline points="2 7 5 10 11 3"/></svg>
-      </div>
+      <div class="check-circle"><svg viewBox="0 0 13 13"><polyline points="2 7 5 10 11 3"/></svg></div>
       <div class="check-content">
         <div class="check-label">${v.label}</div>
         <div class="check-peso">Peso: ${v.peso}%</div>
@@ -670,79 +560,80 @@ function toggle(voceId) {
   if (!a || a.archiviata) return;
   if (!a.checks) a.checks = {};
   a.checks[voceId] = !a.checks[voceId];
-  save();
 
   const el = document.getElementById('ci-' + voceId);
   if (el) el.classList.toggle('checked', !!a.checks[voceId]);
-
   aggiornaProgresso(a);
+
+  // Salvataggio debouncato — aspetta 800ms dopo l'ultima spunta
+  localStorage.setItem('dn_cache', JSON.stringify(autos));
+  clearTimeout(saveTimer);
+  document.getElementById('sync-info').textContent = 'Salvataggio in corso...';
+  saveTimer = setTimeout(async () => {
+    await syncAuto(a);
+    document.getElementById('sync-info').textContent = '✓ Salvato su Google Sheet — ' + new Date().toLocaleTimeString('it-IT', {hour:'2-digit',minute:'2-digit'});
+  }, 800);
 }
 
 function aggiornaProgresso(a) {
   const p = pct(a);
   const done = VOCI.filter(v => a.checks && a.checks[v.id]).length;
   const isDone = p === 100;
-
   document.getElementById('cl-pct').textContent     = p + '%';
   document.getElementById('cl-bar').style.width     = p + '%';
   document.getElementById('cl-sub').textContent     = done + ' di ' + VOCI.length + ' voci completate';
-  document.getElementById('cl-pct').className       = 'prog-number' + (isDone ? ' g' : '');
-  document.getElementById('cl-bar').className       = 'prog-bar-fill' + (isDone ? ' g' : '');
-  document.getElementById('celebrate').className    = 'celebrate' + (isDone ? ' show' : '');
+  document.getElementById('cl-pct').className       = 'prog-number' + (isDone?' g':'');
+  document.getElementById('cl-bar').className       = 'prog-bar-fill' + (isDone?' g':'');
+  document.getElementById('celebrate').className    = 'celebrate' + (isDone?' show':'');
   document.getElementById('celebrate-msg').textContent = 'Ottimo lavoro Federico! ' + a.targa + ' è pronto per la vendita.';
   document.getElementById('btn-archivia').disabled  = !isDone;
 }
 
-function saveNoteFinale() {
+document.getElementById('cl-note-finale').addEventListener('input', function() {
   const a = autos.find(x => x.id === currentId);
-  if (a) { a.noteFinale = document.getElementById('cl-note-finale').value; save(); }
-}
+  if (!a) return;
+  a.noteFinale = this.value;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => syncAuto(a), 1200);
+});
 
-function archiviaAuto() {
+async function archiviaAuto() {
   const a = autos.find(x => x.id === currentId);
   if (!a) return;
   if (pct(a) < 100) { toast('Completa tutte le voci prima di archiviare'); return; }
-  if (!confirm('Archiviare ' + a.targa + '? Questa azione non è reversibile.')) return;
+  if (!confirm('Archiviare ' + a.targa + '?')) return;
   a.archiviata = true;
   a.dataArchivio = today();
-  save();
+  loader('Archiviazione in corso...');
+  await syncAuto(a);
+  localStorage.setItem('dn_cache', JSON.stringify(autos));
+  hideLoader();
   toast('✓ ' + a.targa + ' archiviata');
   showScreen('s-lista');
 }
 
 // ══════════════════════════════════════
-//  SINCRONIZZAZIONE GOOGLE SHEET
+//  SYNC — scrive sul Google Sheet
 // ══════════════════════════════════════
-async function sincronizza() {
-  const gasUrl = localStorage.getItem('dn_gas_url');
-  const a = autos.find(x => x.id === currentId);
-  const msgEl = document.getElementById('sync-msg');
-
-  if (!gasUrl) { msgEl.textContent = '⚠ Configura prima l\'URL nelle Impostazioni'; return; }
-  if (!a) return;
-
-  msgEl.textContent = 'Sincronizzazione in corso...';
-
-  const params = new URLSearchParams({
-    action:       'prep_sync',
-    targa:        a.targa,
-    marca:        a.marca,
-    modello:      a.modello,
-    telaio:       a.telaio || '',
-    data_entrata: a.data   || '',
+async function syncAuto(a) {
+  if (!GAS_URL) return;
+  const params = {
+    action:      'save_auto',
+    id:          a.id,
+    targa:       a.targa,
+    marca:       a.marca,
+    modello:     a.modello,
+    telaio:      a.telaio      || '',
+    data:        a.data        || '',
+    checks:      JSON.stringify(a.checks || {}),
+    noteFinale:  a.noteFinale  || '',
+    note:        a.note        || '',
+    archiviata:  a.archiviata  ? '1' : '0',
     completamento: pct(a),
-    checks:       JSON.stringify(a.checks || {}),
-    note:         a.noteFinale || '',
-    timestamp:    new Date().toISOString(),
-  });
-
+  };
   try {
-    await fetch(gasUrl + '?' + params.toString(), { mode: 'no-cors' });
-    msgEl.textContent = '✓ Sincronizzato con Google Sheet';
-    setTimeout(() => { msgEl.textContent = ''; }, 3000);
-  } catch(e) {
-    msgEl.textContent = '✗ Errore di rete. Riprova.';
-  }
+    await fetch(GAS_URL + '?' + new URLSearchParams(params).toString(), { mode: 'no-cors' });
+  } catch(e) { console.warn('sync error', e); }
 }
 
 // ══════════════════════════════════════
@@ -750,19 +641,38 @@ async function sincronizza() {
 // ══════════════════════════════════════
 function saveGas() {
   const val = document.getElementById('gas-input').value.trim();
+  GAS_URL = val;
   localStorage.setItem('dn_gas_url', val);
   const st = document.getElementById('gas-status');
-  st.textContent = val ? '✓ Salvato con successo' : 'Rimosso';
+  st.textContent = val ? '✓ Salvato' : 'Rimosso';
   st.className = val ? 'status-ok' : 'status-ko';
   toast('URL salvato');
 }
 
-function resetAll() {
-  if (!confirm('Cancellare TUTTI i dati? Questa azione non è reversibile.')) return;
-  localStorage.removeItem('dn_prep_autos');
+function clearCache() {
+  if (!confirm('Svuotare la cache locale?')) return;
+  localStorage.removeItem('dn_cache');
   autos = [];
-  toast('Dati cancellati');
   renderLista();
+  toast('Cache svuotata');
+}
+
+function setTab(name, el) {
+  ['wip','done','settings'].forEach(t => { document.getElementById('tab-'+t).style.display = t===name?'block':'none'; });
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('fab-btn').style.display = name==='settings' ? 'none' : 'flex';
+  if (name === 'settings') renderLista();
+}
+
+// ══════════════════════════════════════
+//  NAVIGAZIONE
+// ══════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 's-lista') renderLista();
+  window.scrollTo(0,0);
 }
 
 // ══════════════════════════════════════
@@ -770,18 +680,21 @@ function resetAll() {
 // ══════════════════════════════════════
 function today() { return new Date().toISOString().split('T')[0]; }
 
-let toastTimer;
+let toastT;
 function toast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-// INIT
-document.getElementById('f-data') && (document.getElementById('f-data').value = today());
-renderLista();
+function loader(msg) {
+  document.getElementById('loader-msg').textContent = msg || 'Caricamento...';
+  document.getElementById('loader').classList.remove('hide');
+}
+function hideLoader() { document.getElementById('loader').classList.add('hide'); }
+
+init();
 </script>
 </body>
 </html>

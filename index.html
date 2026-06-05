@@ -134,6 +134,14 @@
   .check-item.checked .check-label { color: var(--text3); text-decoration: line-through; text-decoration-color: #9FE1CB; }
   .check-peso { font-size: 11px; color: var(--text3); margin-top: 1px; }
 
+  /* VOCE EVIDENZIATA */
+  .check-item.warning-item { background: #FFF8E1; border-top: 1px solid #FFD54F; border-bottom: 1px solid #FFD54F !important; }
+  .check-item.warning-item:active { background: #FFF3CD; }
+  .check-item.warning-item.checked { background: #f5fbef; }
+  .check-item.warning-item .check-circle { border-color: #F59E0B; }
+  .warning-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #92400E; background: #FDE68A; border: 1px solid #FCD34D; padding: 2px 7px; border-radius: 999px; margin-left: 8px; white-space: nowrap; vertical-align: middle; }
+  .check-item.checked .warning-badge { display: none; }
+
   /* ACTION BAR */
   .action-bar { padding: 12px 16px; display: flex; gap: 10px; }
   .note-section { padding: 0 16px; margin-bottom: 16px; }
@@ -364,7 +372,7 @@ const VOCI = [
   { id:'sanificazione',  label:'Sanificazione e lavaggio interni',       peso:8,  gruppo:'Pulizia' },
   { id:'moquette',       label:'Pulizia moquette e tappetini',           peso:7,  gruppo:'Pulizia' },
   { id:'sedili',         label:'Pulizia sedili',                         peso:7,  gruppo:'Pulizia' },
-  { id:'vetri',          label:'Pulizia vetri interni ed esterni',       peso:6,  gruppo:'Pulizia' },
+  { id:'vetri',          label:'Pulizia vetri interni ed esterni',       peso:6,  gruppo:'Pulizia', warning: true },
   { id:'adesivi',        label:'Rimozione adesivi',                      peso:5,  gruppo:'Allestimento' },
   { id:'porta_targa',    label:'Installazione porta targa',              peso:5,  gruppo:'Allestimento' },
   { id:'adesivo_dn',     label:'Adesivo Donolauto',                      peso:4,  gruppo:'Allestimento' },
@@ -544,10 +552,11 @@ function renderChecklist(auto) {
   VOCI.forEach(v => {
     if (v.gruppo !== lastG) { html += `<div class="section-label">${v.gruppo}</div>`; lastG = v.gruppo; }
     const checked = !!(auto.checks && auto.checks[v.id]);
-    html += `<div class="check-item ${checked?'checked':''}" id="ci-${v.id}" onclick="toggle('${v.id}')">
+    const isWarning = !!v.warning;
+    html += `<div class="check-item ${checked?'checked':''} ${isWarning?'warning-item':''}" id="ci-${v.id}" onclick="toggle('${v.id}')">
       <div class="check-circle"><svg viewBox="0 0 13 13"><polyline points="2 7 5 10 11 3"/></svg></div>
       <div class="check-content">
-        <div class="check-label">${v.label}</div>
+        <div class="check-label">${v.label}${isWarning ? '<span class="warning-badge">⚠ Spesso dimenticata!</span>' : ''}</div>
         <div class="check-peso">Peso: ${v.peso}%</div>
       </div>
     </div>`;

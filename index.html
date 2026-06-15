@@ -16,20 +16,24 @@
     --red: #C0140C; --red-dark: #8f0e08; --red-light: #fdecea;
     --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #639922;
     --amber: #854F0B; --amber-light: #FAEEDA;
-    --bg: #f5f4f2; --surface: #ffffff; --surface2: #f0eeeb;
-    --border: rgba(0,0,0,0.09); --border-mid: rgba(0,0,0,0.15);
-    --text: #1a1a18; --text2: #6b6b67; --text3: #a0a09c;
-    --radius: 12px; --radius-sm: 8px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --bg: #f6f3ef; --surface: #ffffff; --surface2: #f1ede7;
+    --border: rgba(40,30,20,0.08); --border-mid: rgba(40,30,20,0.14);
+    --text: #211d18; --text2: #6b6359; --text3: #a59b8d;
+    --radius: 14px; --radius-sm: 9px;
+    --shadow: 0 1px 2px rgba(40,30,20,0.04), 0 4px 12px rgba(40,30,20,0.06);
+    --shadow-lg: 0 8px 28px rgba(40,30,20,0.12);
+    --plate-blue: #003399;
   }
   body.dark {
-    --red: #E8504A; --red-dark: #C0140C; --red-light: #3a1614;
-    --green: #7BB85C; --green-light: #1f2e14; --green-mid: #639922;
-    --amber: #E0A040; --amber-light: #332611;
-    --bg: #16161a; --surface: #1f1f25; --surface2: #2a2a32;
-    --border: rgba(255,255,255,0.10); --border-mid: rgba(255,255,255,0.18);
-    --text: #f0f0f2; --text2: #b0b0b8; --text3: #707078;
-    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --red: #F26158; --red-dark: #C0140C; --red-light: #3a1614;
+    --green: #8BCB6A; --green-light: #1f2e14; --green-mid: #639922;
+    --amber: #E8B055; --amber-light: #332611;
+    --bg: #15161a; --surface: #1e2026; --surface2: #292c34;
+    --border: rgba(255,255,255,0.09); --border-mid: rgba(255,255,255,0.16);
+    --text: #f2f1ee; --text2: #b2ada4; --text3: #6e6b66;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.35);
+    --shadow-lg: 0 8px 28px rgba(0,0,0,0.5);
+    --plate-blue: #1a4fd6;
   }
   body { transition: background 0.3s, color 0.3s; }
   html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.5; overflow-x: hidden; }
@@ -118,8 +122,20 @@
 
   /* VEH HEADER */
   .veh-header { padding: 16px; }
-  .veh-targa { display: inline-block; font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; letter-spacing: 0.1em; background: var(--surface); padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-mid); margin-bottom: 4px; box-shadow: var(--shadow); }
-  .veh-modello { font-size: 14px; color: var(--text2); }
+  .veh-modello { font-size: 14px; color: var(--text2); margin-top: 8px; }
+
+  /* TARGA STILE EU */
+  .targa-eu { display: inline-flex; align-items: stretch; height: 38px; border-radius: 6px; overflow: hidden; border: 2px solid #111; background: #fff; box-shadow: var(--shadow); font-family: 'DM Mono', monospace; }
+  .targa-eu-band { background: var(--plate-blue); color: #fff; width: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 3px 0; flex-shrink: 0; }
+  .targa-eu-stars { font-size: 8px; line-height: 1; color: #FFCC00; }
+  .targa-eu-country { font-size: 11px; font-weight: 700; line-height: 1; }
+  .targa-eu-num { display: flex; align-items: center; padding: 0 12px; font-size: 19px; font-weight: 500; letter-spacing: 0.12em; color: #111; background: #fff; }
+  /* versione mini per le card */
+  .targa-eu.mini { height: 26px; border-width: 1.5px; border-radius: 4px; }
+  .targa-eu.mini .targa-eu-band { width: 15px; }
+  .targa-eu.mini .targa-eu-stars { font-size: 6px; }
+  .targa-eu.mini .targa-eu-country { font-size: 8px; }
+  .targa-eu.mini .targa-eu-num { padding: 0 8px; font-size: 14px; letter-spacing: 0.08em; }
 
   /* CELEBRATE */
   .celebrate { margin: 0 16px 16px; background: var(--green-light); border: 1px solid #C0DD97; border-radius: var(--radius); padding: 20px; text-align: center; display: none; animation: popIn 0.4s ease; }
@@ -130,7 +146,44 @@
   .celebrate p { font-size: 13px; color: #3B6D11; }
 
   /* CHECKLIST */
-  .section-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 16px; margin: 20px 0 8px; }
+  .section-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 16px; margin: 20px 0 8px; }
+  .section-ico { width: 24px; height: 24px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .section-ico.tecnici { background: #E5EEF9; }
+  .section-ico.pulizia { background: #E3F4EC; }
+  .section-ico.allest  { background: #FBEDE0; }
+  .section-ico.accett  { background: #F0ECF9; }
+  body.dark .section-ico.tecnici { background: #1c2a3d; }
+  body.dark .section-ico.pulizia { background: #15301f; }
+  body.dark .section-ico.allest  { background: #3a2914; }
+  body.dark .section-ico.accett  { background: #241d3a; }
+
+  /* ANELLO DI PROGRESSO */
+  .ring-wrap { display: flex; align-items: center; gap: 18px; }
+  .ring { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
+  .ring svg { transform: rotate(-90deg); width: 88px; height: 88px; }
+  .ring-bg { fill: none; stroke: var(--surface2); stroke-width: 9; }
+  .ring-fg { fill: none; stroke: var(--red); stroke-width: 9; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease, stroke 0.4s; }
+  .ring-fg.g { stroke: var(--green); }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-pct { font-size: 22px; font-weight: 600; line-height: 1; color: var(--text); }
+  .ring-pct.g { color: var(--green); }
+  .ring-info { flex: 1; }
+  .ring-info .prog-label { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .ring-info .prog-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+  /* SCHERMATA COMPLETAMENTO FULLSCREEN */
+  .done-screen { position: fixed; inset: 0; z-index: 997; background: linear-gradient(160deg, var(--green) 0%, #2a5009 100%); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 32px; text-align: center; }
+  .done-screen.show { display: flex; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .done-check { width: 84px; height: 84px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; animation: pop 0.5s 0.2s both; }
+  @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  .done-check svg { width: 44px; height: 44px; fill: none; stroke: #fff; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+  .done-screen .done-targa { margin-bottom: 18px; }
+  .done-screen h2 { color: #fff; font-size: 26px; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 8px; line-height: 1.15; }
+  .done-screen .done-tempo { color: rgba(255,255,255,0.85); font-size: 14px; margin-bottom: 36px; }
+  .done-screen .done-actions { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; }
+  .done-btn-primary { padding: 15px; background: #fff; color: var(--green); border: none; border-radius: 11px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .done-btn-ghost { padding: 13px; background: transparent; color: rgba(255,255,255,0.9); border: 1.5px solid rgba(255,255,255,0.4); border-radius: 11px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
   .check-item { display: flex; align-items: center; gap: 14px; padding: 13px 16px; background: var(--surface); border-top: 1px solid var(--border); cursor: pointer; transition: background 0.1s; -webkit-user-select: none; }
   .check-item:last-child { border-bottom: 1px solid var(--border); }
   .check-item:active { background: var(--surface2); }
@@ -407,25 +460,26 @@
     </div>
 
     <div class="veh-header">
-      <div class="veh-targa" id="cl-targa">—</div>
+      <div id="cl-targa"></div>
       <div class="veh-modello" id="cl-modello">—</div>
     </div>
 
-    <div class="celebrate" id="celebrate">
-      <div class="celebrate-emoji">🎉</div>
-      <h3>Preparazione completata!</h3>
-      <p id="celebrate-msg">Ottimo lavoro Federico!</p>
-    </div>
-
     <div class="prog-section" style="margin:0 16px 4px">
-      <div class="prog-header">
-        <span class="prog-label">Completamento</span>
-        <span class="prog-number" id="cl-pct">0%</span>
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg viewBox="0 0 88 88">
+            <circle class="ring-bg" cx="44" cy="44" r="38"></circle>
+            <circle class="ring-fg" id="cl-ring" cx="44" cy="44" r="38" stroke-dasharray="238.76" stroke-dashoffset="238.76"></circle>
+          </svg>
+          <div class="ring-label">
+            <span class="ring-pct" id="cl-pct">0%</span>
+          </div>
+        </div>
+        <div class="ring-info">
+          <div class="prog-label">Preparazione</div>
+          <div class="prog-sub" id="cl-sub">0 di 17 voci completate</div>
+        </div>
       </div>
-      <div class="prog-bar-wrap">
-        <div class="prog-bar-fill" id="cl-bar" style="width:0%"></div>
-      </div>
-      <p class="prog-sub" id="cl-sub">0 di 17 voci completate</p>
     </div>
 
     <div id="cl-items"></div>
@@ -441,6 +495,20 @@
     <p class="sync-info" id="sync-info">Le modifiche vengono salvate automaticamente su Google Sheet</p>
   </div>
 
+</div>
+
+<!-- SCHERMATA COMPLETAMENTO FULLSCREEN -->
+<div class="done-screen" id="done-screen">
+  <div class="done-check">
+    <svg viewBox="0 0 44 44"><polyline points="9 23 19 33 35 13"/></svg>
+  </div>
+  <div class="done-targa" id="done-targa"></div>
+  <h2>PRONTA PER<br>LA VENDITA</h2>
+  <p class="done-tempo" id="done-tempo"></p>
+  <div class="done-actions">
+    <button class="done-btn-primary" onclick="archiviaDaCompletamento()">Archivia veicolo</button>
+    <button class="done-btn-ghost" onclick="chiudiCompletamento()">Continua dopo</button>
+  </div>
 </div>
 
 <!-- LOADER -->
@@ -584,13 +652,22 @@ function renderLista() {
   if (gs) { gs.textContent = GAS_URL ? '✓ Configurato' : 'Non configurato'; gs.className = GAS_URL ? 'status-ok' : 'status-ko'; }
 }
 
+function targaHTML(targa, mini) {
+  return `<span class="targa-eu ${mini?'mini':''}">
+    <span class="targa-eu-band">
+      <span class="targa-eu-stars">★</span>
+      <span class="targa-eu-country">I</span>
+    </span>
+    <span class="targa-eu-num">${targa}</span>
+  </span>`;
+}
+
 function autoCard(a) {
   const p = pct(a); const isDone = a.archiviata || p === 100;
   return `<div class="auto-item ${isDone?'done':''}" onclick="apriAuto('${a.id}')">
-    <div class="auto-icon"><svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="17" r="3"/><path d="M14 17H10"/></svg></div>
     <div class="auto-info">
-      <div class="auto-targa">${a.targa}</div>
-      <div class="auto-modello">${a.marca} ${a.modello}</div>
+      ${targaHTML(a.targa, true)}
+      <div class="auto-modello" style="margin-top:6px">${a.marca} ${a.modello}</div>
       <div class="auto-date">${formatDate(a.data)}</div>
     </div>
     <div class="mprog">
@@ -646,7 +723,7 @@ function apriAuto(id) {
   if (!a) return;
   document.getElementById('cl-topbar-title').textContent = a.targa;
   document.getElementById('cl-topbar-sub').textContent   = a.marca + ' ' + a.modello;
-  document.getElementById('cl-targa').textContent        = a.targa;
+  document.getElementById('cl-targa').innerHTML          = targaHTML(a.targa, false);
   document.getElementById('cl-modello').textContent      = a.marca + ' ' + a.modello;
   document.getElementById('cl-note-finale').value        = a.noteFinale || '';
   renderChecklist(a);
@@ -654,11 +731,22 @@ function apriAuto(id) {
   showScreen('s-checklist');
 }
 
+const GRUPPO_ICONE = {
+  'Accettazione':     { ico: '📋', cls: 'accett' },
+  'Controlli tecnici':{ ico: '🔧', cls: 'tecnici' },
+  'Pulizia':          { ico: '🧽', cls: 'pulizia' },
+  'Allestimento':     { ico: '🏷️', cls: 'allest' },
+};
+
 function renderChecklist(auto) {
   const el = document.getElementById('cl-items');
   let html = ''; let lastG = '';
   VOCI.forEach(v => {
-    if (v.gruppo !== lastG) { html += `<div class="section-label">${v.gruppo}</div>`; lastG = v.gruppo; }
+    if (v.gruppo !== lastG) {
+      const g = GRUPPO_ICONE[v.gruppo] || { ico:'•', cls:'' };
+      html += `<div class="section-label"><span class="section-ico ${g.cls}">${g.ico}</span>${v.gruppo}</div>`;
+      lastG = v.gruppo;
+    }
     const checked = !!(auto.checks && auto.checks[v.id]);
     const isWarning = !!v.warning;
     html += `<div class="check-item ${checked?'checked':''} ${isWarning?'warning-item':''}" id="ci-${v.id}" onclick="toggle('${v.id}')">
@@ -693,6 +781,7 @@ function toggle(voceId) {
     lanciaCoriandoli();
     suonoVittoria();
     vibra([0, 80, 50, 80, 50, 160]);
+    mostraCompletamento(a);
   }
 
   // Salvataggio debouncato — aspetta 800ms dopo l'ultima spunta
@@ -709,14 +798,36 @@ function aggiornaProgresso(a) {
   const p = pct(a);
   const done = VOCI.filter(v => a.checks && a.checks[v.id]).length;
   const isDone = p === 100;
-  document.getElementById('cl-pct').textContent     = p + '%';
-  document.getElementById('cl-bar').style.width     = p + '%';
-  document.getElementById('cl-sub').textContent     = done + ' di ' + VOCI.length + ' voci completate';
-  document.getElementById('cl-pct').className       = 'prog-number' + (isDone?' g':'');
-  document.getElementById('cl-bar').className       = 'prog-bar-fill' + (isDone?' g':'');
-  document.getElementById('celebrate').className    = 'celebrate' + (isDone?' show':'');
-  document.getElementById('celebrate-msg').textContent = 'Ottimo lavoro Federico! ' + a.targa + ' è pronto per la vendita.';
-  document.getElementById('btn-archivia').disabled  = !isDone;
+  const CIRC = 238.76; // 2π × 38
+
+  document.getElementById('cl-pct').textContent  = p + '%';
+  document.getElementById('cl-pct').className     = 'ring-pct' + (isDone?' g':'');
+  document.getElementById('cl-sub').textContent   = done + ' di ' + VOCI.length + ' voci completate';
+
+  const ring = document.getElementById('cl-ring');
+  ring.style.strokeDashoffset = (CIRC * (1 - p/100)).toFixed(2);
+  ring.className = 'ring-fg' + (isDone?' g':'');
+
+  document.getElementById('btn-archivia').disabled = !isDone;
+}
+
+// ── SCHERMATA COMPLETAMENTO ──
+function mostraCompletamento(a) {
+  document.getElementById('done-targa').innerHTML = targaHTML(a.targa, false);
+  let tempoTxt = '';
+  if (a.createdAt) {
+    const diff = Date.now() - Number(a.createdAt);
+    if (diff > 0 && diff < 1000*60*60*48) tempoTxt = 'Preparata in ' + formatDurata(diff);
+  }
+  document.getElementById('done-tempo').textContent = tempoTxt || 'Ottimo lavoro, Federico!';
+  document.getElementById('done-screen').classList.add('show');
+}
+function chiudiCompletamento() {
+  document.getElementById('done-screen').classList.remove('show');
+}
+async function archiviaDaCompletamento() {
+  document.getElementById('done-screen').classList.remove('show');
+  await archiviaAuto();
 }
 
 document.getElementById('cl-note-finale').addEventListener('input', function() {
